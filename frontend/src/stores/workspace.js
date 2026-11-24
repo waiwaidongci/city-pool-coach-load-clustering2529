@@ -18,5 +18,13 @@ export const workspace = {
   deliveries: () => call('/deliveries'),
   schedule: data => call('/schedules', data),
   disable: id => call(`/schedules/${id}/disable`, {}),
+  migrationBoard: () => call('/migration/board'),
+  setupMigration: data => call('/migration/board', data),
+  recomputeMigration: () => call('/migration/recompute', {}),
+  importWeek: data => call('/migration/weeks', data),
+  migrationReports: () => call('/migration/reports'),
+  migrationReport: id => call(`/migration/reports/${id}`),
+  migrationSuggestions: () => call('/migration/suggestions'),
+  suggest: data => call('/migration/suggestions', data),
   download: (path, filename) => saveFile(path, session.token, filename),
 };

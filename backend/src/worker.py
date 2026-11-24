@@ -2,6 +2,7 @@ import logging
 import time
 from pathlib import Path
 from src.services.execution import claim, execute, materialize_due
+from src.services.migration_jobs import claim as claim_migration, execute as execute_migration
 from src.utils.wakeup import wait
 
 logging.basicConfig(level=logging.INFO)
@@ -17,6 +18,11 @@ def main():
             heartbeat.touch()
             if lease:
                 execute(lease)
+                heartbeat.touch()
+                continue
+            migration_lease = claim_migration()
+            if migration_lease:
+                execute_migration(migration_lease)
                 heartbeat.touch()
             else:
                 wait()

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from pydantic import BaseModel, ConfigDict, Field
 from src.constants.enums import Review
 
@@ -28,3 +28,18 @@ class ScheduleRequest(RunRequest):
     recipient: str = Field(min_length=1, max_length=100)
     first_at: datetime
     repeat_daily: bool = False
+
+class WeekImport(Request):
+    week_start: date
+    revision: int = Field(ge=1, le=9999)
+    csv_text: str = Field(min_length=1, max_length=2_000_000)
+
+class BoardSetup(Request):
+    week_start: date
+    eps: float = 0.65
+    min_samples: int = 5
+
+class SuggestionRequest(Request):
+    coach_id: str = Field(min_length=1, max_length=64)
+    action: str = Field(min_length=1, max_length=30)
+    note: str = Field(min_length=1, max_length=500)

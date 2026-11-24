@@ -27,3 +27,25 @@ def schedule(item):
 def delivery(item):
     return {'id': item.id, 'run_id': item.run_id, 'recipient': item.recipient,
             'state': item.state, 'detail': item.detail, 'created_at': iso(item.created_at)}
+
+
+def week_snapshot(item):
+    return {'id': item.id, 'week_start': item.week_start.isoformat(), 'revision': item.revision,
+            'row_count': item.row_count, 'checksum': item.checksum, 'author': item.author,
+            'created_at': iso(item.created_at)}
+
+
+def migration_report(item, detail=False):
+    view = {'id': item.id, 'weeks': [item.week1.isoformat(), item.week2.isoformat(), item.week3.isoformat()],
+            'revisions': [item.rev1, item.rev2, item.rev3], 'params': item.params,
+            'generation': item.generation, 'status': item.status, 'error': item.error,
+            'author': item.author, 'created_at': iso(item.created_at), 'finished_at': iso(item.finished_at)}
+    if detail:
+        view['result'] = item.result
+    return view
+
+
+def suggestion(item):
+    return {'id': item.id, 'coach_id': item.coach_id, 'target_week': item.target_week.isoformat(),
+            'action': item.action, 'note': item.note, 'author': item.author, 'report_id': item.report_id,
+            'basis': item.basis, 'created_at': iso(item.created_at)}

@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+from src.services.analysis import ACTIONS
+
 DEMO = Path(__file__).resolve().parents[2] / 'demo'
 BUSINESS = json.loads((DEMO / 'business.json').read_text(encoding='utf-8'))
 TYPES = {'str': 'string', 'float': 'number', 'choice': 'select'}
@@ -20,7 +22,8 @@ SPEC = {
     'sample_name': business['dataset'], 'default_dataset': business['dataset'].removesuffix('.csv'),
     'entity': ledger, 'run': run, 'decision': '业务处理决定', 'action': '保存复核决定',
     'decision_guide': business['decision'], 'recipients': business['recipients'],
-    'pages': ['值班概览', ledger, run, result, '业务复核', delivery],
+    'pages': ['值班概览', ledger, run, result, '业务复核', delivery, '负荷迁移看板'],
+    'suggestion_actions': list(ACTIONS),
     'fields': api_fields(business['fields']), 'params': api_fields(business['parameters']),
     'scheduled': True, 'schedule_date_param': business.get('schedule_date_param'),
     'strict_test_params': business.get('strict_test_params'),
